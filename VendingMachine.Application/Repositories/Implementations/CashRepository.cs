@@ -1,21 +1,33 @@
-﻿using VendingMachine.Application.Contracts.Money;
+﻿using VendingMachine.Application.Contracts;
 
 namespace VendingMachine.Application.Repositories.Implementations;
 
-public class CashService : ICashRepository
+public class CashRepository : ICashRepository
 {
-    public bool CanMakeChange(int changeAmount)
-    {
-        throw new NotImplementedException();
-    }
+    private readonly List<ICoin> _coins;
 
-    public IEnumerable<ICoin> GetChange(int amount)
+    public CashRepository()
     {
-        throw new NotImplementedException();
+        _coins = new List<ICoin>();
     }
 
     public void AddCoin(ICoin coin)
     {
-        throw new NotImplementedException();
+        _coins.Add(coin);
+    }
+
+    public void Remove(int value, int count)
+    {
+        var coins = _coins.Where(x => x.ValuePennies == value).Take(count).ToList();
+
+        foreach (var coin in coins)
+        {
+            _coins.Remove(coin);
+        }
+    }
+
+    public int Count(Func<ICoin, bool> func)
+    {
+        return _coins.Count(func);
     }
 }

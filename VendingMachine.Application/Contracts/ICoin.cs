@@ -1,4 +1,6 @@
-﻿namespace VendingMachine.Application.Contracts.Money;
+﻿using VendingMachine.Application.Models;
+
+namespace VendingMachine.Application.Contracts;
 
 public interface ICoin
 {
@@ -10,7 +12,7 @@ public interface ICoin
     public const string FiftyPenceCoinName = "50p";
     public const string OnePoundCoinName = "£1";
     public const string TwoPoundCoinName = "£2";
-    
+
     public string Name { get; }
 
     public int ValuePennies { get; }
@@ -19,14 +21,14 @@ public interface ICoin
     {
         return name switch
         {
-            OnePenceCoinName => new OnePenceCoin(),
-            TwoPenceCoinName => new TwoPenceCoin(),
-            FivePenceCoinName => new FivePenceCoin(),
-            TenPenceCoinName => new TenPenceCoin(),
-            TwentyPenceCoinName => new TwentyPenceCoin(),
-            FiftyPenceCoinName => new FiftyPenceCoin(),
-            OnePoundCoinName => new OnePoundCoin(),
-            TwoPoundCoinName => new TwoPoundCoin(),
+            OnePenceCoinName => new GenericDenomination(1, OnePenceCoinName),
+            TwoPenceCoinName => new GenericDenomination(2, TwoPenceCoinName),
+            FivePenceCoinName => new GenericDenomination(5, FivePenceCoinName),
+            TenPenceCoinName => new GenericDenomination(10, TenPenceCoinName),
+            TwentyPenceCoinName => new GenericDenomination(20, TwentyPenceCoinName),
+            FiftyPenceCoinName => new GenericDenomination(50, FiftyPenceCoinName),
+            OnePoundCoinName => new GenericDenomination(100, OnePoundCoinName),
+            TwoPoundCoinName => new GenericDenomination(200, TwoPoundCoinName),
             _ => throw new ArgumentException("Invalid coin name.")
         };
     }
